@@ -25,7 +25,7 @@ object EchoServer extends CatsApp {
 
     for {
       _ <- BlazeServerBuilder[Task]
-        .bindHttp(8080)
+        .bindHttp(9000)
         .withHttpApp(endpoints)
         .serve
         .compile
