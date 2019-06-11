@@ -74,6 +74,8 @@ val logbackDeps = Seq(
   "ch.qos.logback" % "logback-classic" % logbackVersion
 )
 
+val scalaTestVersion = "3.0.7"
+
 lazy val httpEcho = (project in file("modules/http-echo"))
   .settings(
     commonSettings,
@@ -103,6 +105,15 @@ lazy val slf4zio = (project in file("modules/slf4zio"))
     name := "slf4zio",
     libraryDependencies += "org.scalaz" %% "scalaz-zio" % zioVersion,
     libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.26",
+    libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.26" % Test
+  ).dependsOn(testUtils % "test->compile")
+
+lazy val testUtils = (project in file("modules/test-utils"))
+  .settings(
+    commonSettings,
+    name := "test-utils",
+    libraryDependencies += "org.scalaz" %% "scalaz-zio" % zioVersion,
+    libraryDependencies += "org.scalatest" %% "scalatest" % scalaTestVersion
   )
 
 lazy val root = (project in file("."))
