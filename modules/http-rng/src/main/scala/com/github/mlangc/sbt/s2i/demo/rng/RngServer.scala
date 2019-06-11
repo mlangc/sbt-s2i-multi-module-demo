@@ -11,14 +11,23 @@ import scalaz.zio.{Task, ZIO}
 
 import scala.util.Random
 
+import com.github.mlangc.slf4zio._
+
 object RngServer extends CatsApp {
+  private val logger = getLogger(RngServer)
+
   override def run(args: List[String]): ZIO[RngServer.Environment, Nothing, Int] = {
     val dsl: Http4sDsl[Task] = Http4sDsl[Task]
     import dsl._
 
     def endpoints: HttpApp[Task] = {
       val service = HttpRoutes.of[Task] {
-        case GET -> Root / "rng" => Ok(Task(Random.nextString(16)))
+        case GET -> Root / "rng" => for {
+            str <- Task(Random.nextString(16))
+            _ <- logger.infoIO(s"Returning random string '$str'")
+            resp <- Ok(Task(Random.nextString(16)))
+          } yield resp
+
         case GET -> Root / "alive" => Task(Response(Status.Ok))
       }
 
@@ -27,7 +36,7 @@ object RngServer extends CatsApp {
 
     for {
       _ <- BlazeServerBuilder[Task]
-        .bindHttp(9000)
+        .bindHttp(9000, "0.0.0.0")
         .withHttpApp(endpoints)
         .serve
         .compile

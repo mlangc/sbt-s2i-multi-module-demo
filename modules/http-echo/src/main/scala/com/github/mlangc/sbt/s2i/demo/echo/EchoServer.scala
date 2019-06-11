@@ -1,19 +1,17 @@
 package com.github.mlangc.sbt.s2i.demo.echo
 
+import com.github.mlangc.slf4zio._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.{HttpApp, HttpRoutes, Response, Status}
-import org.slf4j.LoggerFactory
 import scalaz.zio.interop.catz._
 import scalaz.zio.interop.catz.implicits._
 import scalaz.zio.{Task, ZIO}
 
-import com.github.mlangc.slf4zio._
-
 object EchoServer extends CatsApp {
-  private val logger = LoggerFactory.getLogger(getClass)
+  private val logger = getLogger(EchoServer)
 
   override def run(args: List[String]): ZIO[EchoServer.Environment, Nothing, Int] = {
     val dsl: Http4sDsl[Task] = Http4sDsl[Task]

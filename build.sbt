@@ -103,6 +103,7 @@ lazy val slf4zio = (project in file("modules/slf4zio"))
   .settings(
     commonSettings,
     name := "slf4zio",
+    scalacOptions -= "-Ywarn-unused:params",
     libraryDependencies += "org.scalaz" %% "scalaz-zio" % zioVersion,
     libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.26",
     libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.26" % Test

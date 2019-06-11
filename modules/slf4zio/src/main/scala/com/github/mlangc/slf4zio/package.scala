@@ -20,4 +20,6 @@ package object slf4zio {
 
   def getLogger[A](implicit classTag: ClassTag[A]): Logger =
     LoggerFactory.getLogger(classTag.runtimeClass)
+
+  def getLogger[A](placeholder: A)(implicit classTag: ClassTag[A]): Logger = getLogger[A]
 }
