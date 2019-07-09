@@ -19,7 +19,7 @@ object EchoServer extends CatsApp {
 
     def endpoints: HttpApp[Task] = {
       val service = HttpRoutes.of[Task] {
-        case GET -> Root / "echo" / echo => logger.infoIO(s"Echo '$echo'") *> Ok(s"Test - $echo!!")
+        case GET -> Root / "echo" / echo => logger.infoIO(s"Echo '$echo'") *> Ok(s"Blah blah blah - $echo!!")
         case GET -> Root / "alive" => Task(Response(Status.Ok))
       }
 
